@@ -4,14 +4,14 @@
 
 ### Contributors:
 * Viivi Laitinen (@laivii)
-* Eliisa Kupiainen (@elkkuli)
 
 ### Why and how the thing works?
 
-This is a project for our Javascript course. 
+Original assigment was for our Javascript course.
+
+In this repository I am trying to improve the 
 
 <!-- information here -->
 
 ### View with;
-* Netlify: https://js-projekti2-vl-ek.netlify.app/
 * Or you can open file in browser: "~../index.html"

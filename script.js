@@ -1,4 +1,21 @@
-var vastaus;
+var responseFile;
+
+class Näytös {
+    constructor(index, title, imagesrc, length, language, genres, ticketsURL){
+        this.index = index;
+        this.title = title;
+        this.image = imagesrc;
+        this.startingtime = [];
+        this.length = length;
+        this.language = language;
+        this.genres = genres;
+        this.tickets = ticketsURL;
+    }
+
+    lisääKellonaika(startingTime){
+        this.startingtime.push(startingTime);
+    }
+}
 
 document.getElementById("getData").addEventListener("click", loadDoc);
 
@@ -16,7 +33,7 @@ function loadDoc() {
 
     xhr.onreadystatechange = function(){
         if(this.readyState == 4 && this.status == 200){
-            vastaus = xhr.responseXML;
+            responseFile = xhr.responseXML;
             getInfo();
         }
     }
@@ -85,10 +102,13 @@ function todaysDate(){
 function getInfo(){
     document.getElementById("movies").innerHTML = "";
     //Searching specific movies
-    var movies = vastaus.getElementsByTagName("Show");
+    var movies = responseFile.getElementsByTagName("Show");
+
+    var screenings = [];
 
     for(var i = 0; i < movies.length; i++){
         var movie = movies[i];
+
         //Getting the title
         var title = movie.getElementsByTagName("Title")[0];
         var otsikko = title.innerHTML; //Getting the title as text only
@@ -101,11 +121,10 @@ function getInfo(){
 
         var language = movie.getElementsByTagName("SpokenLanguage")[0];
         var kieli = language.innerHTML;
-        //console.log(kieli);
 
         var showtime = movie.getElementsByTagName("dttmShowStart")[0];
         var alku = showtime.innerHTML;
-        alku = alku.slice(11, alku.length-3);
+        alku = " " + alku.slice(11, alku.length-3);
         
         var genre = movie.getElementsByTagName("Genres")[0];
         var laji = genre.innerHTML;
@@ -113,63 +132,85 @@ function getInfo(){
         var movielength = movie.getElementsByTagName("LengthInMinutes")[0];
         var kesto = movielength.innerHTML;
 
-        var tickets = movie.getElementsByTagName("ShowURL")[0];
+        var tickets = movie.getElementsByTagName("EventURL")[0];
         var liput = tickets.innerHTML;
 
-        displayMovies(i,otsikko, portrait, kieli, alku, laji, kesto, liput);
+        let duplicate_movie = false;
+
+        for(let i = 0; i < screenings.length; i++){
+            if (screenings[i].title == otsikko){
+                duplicate_movie = true; 
+                screenings[i].lisääKellonaika(alku);
+                break;
+            }
+        }
+        
+        if (duplicate_movie != true) {
+            let new_screening = new Näytös(i, otsikko, portrait, kesto, kieli, laji, liput);
+            new_screening.lisääKellonaika(alku);
+            screenings.push(new_screening);
+        }
     }
+
+    displayMovies(screenings);
 }
 
-function displayMovies(i, otsikko, portrait, kieli, alku, laji, kesto, liput){
-    var container = document.getElementById("movies");
+function displayMovies(screenings){
+    var näytökset = screenings;
 
-    var show = document.createElement("div");
-        show.id = "movie"+i;
-        show.className = "grid-item row";
-    container.appendChild(show);
+    for(let i = 0; i < näytökset.length; i++){
+        var elokuva = näytökset[i];
 
-    var col12 = document.createElement("div");
-        col12.className = "col-sm-12 col12";
-    show.appendChild(col12);
+        var container = document.getElementById("movies");
 
-    var title = document.createElement("h5");
-        title.innerHTML = otsikko;
-    col12.appendChild(title);
+        var show = document.createElement("div");
+            show.id = "movie" + elokuva.i;
+            show.className = "grid-item row";
+        container.appendChild(show);
 
-    var col1 = document.createElement("div");
-        col1.className = "col-sm-4 col1";
-    show.appendChild(col1);
+        var col12 = document.createElement("div");
+            col12.className = "col-sm-12 col12";
+        show.appendChild(col12);
 
-    var col2 = document.createElement("div");
-        col2.className = "col-sm-8 col2";
-    show.appendChild(col2);
+        var title = document.createElement("h5");
+            title.innerHTML = elokuva.title;
+        col12.appendChild(title);
 
-    var image = document.createElement("img");
-        image.src = portrait;
-    col1.appendChild(image);
+        var col1 = document.createElement("div");
+            col1.className = "col-sm-4 col1";
+        show.appendChild(col1);
 
-    var startingTime = document.createElement("p");
-        startingTime.innerHTML = "Aloitusaika: "+ alku; 
-    col2.appendChild(startingTime);
+        var col2 = document.createElement("div");
+            col2.className = "col-sm-8 col2";
+        show.appendChild(col2);
 
-    var length = document.createElement("p");
-        length.innerHTML = "Kesto: " + kesto + " min";
-    col2.appendChild(length);
+        var image = document.createElement("img");
+            image.src = elokuva.image;
+        col1.appendChild(image);
 
-    var language = document.createElement("p");
-        language.innerHTML = "Kieli: " + kieli;
-        language.className = "kieli";
-    col2.appendChild(language);
+        var startingTime = document.createElement("p");
+            startingTime.innerHTML = "Aloitusajat:"+ elokuva.startingtime; 
+        col2.appendChild(startingTime);
 
-    var genre = document.createElement("p");
-        genre.innerHTML = "Tyylilaji: " + laji;
-    col2.appendChild(genre);
+        var length = document.createElement("p");
+            length.innerHTML = "Kesto: " + elokuva.length + " min";
+        col2.appendChild(length);
 
-    var tickets = document.createElement("a");
-        tickets.href = liput;
-        tickets.innerHTML = "LIPUT";
-        tickets.target = "_blank";
-    col2.appendChild(tickets);
+        var language = document.createElement("p");
+            language.innerHTML = "Kieli: " + elokuva.language;
+            language.className = "kieli";
+        col2.appendChild(language);
+
+        var genre = document.createElement("p");
+            genre.innerHTML = "Tyylilaji: " + elokuva.genres;
+        col2.appendChild(genre);
+
+        var tickets = document.createElement("a");
+            tickets.href = elokuva.tickets;
+            tickets.innerHTML = "LIPUT";
+            tickets.target = "_blank";
+        col2.appendChild(tickets);
+    }
 }
 
 function submitWithEnter(enter){
