@@ -1,0 +1,208 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Quicksand:wght@300;400;500;600;700&family=Tenor+Sans&display=swap');
+
+
+body {
+    text-align: center;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #242424;
+}
+
+h1 {
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 50px;
+    background: -webkit-linear-gradient(#eee, yellow);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 0.25em;
+    padding: 3%;
+    text-align: center;
+}
+
+h5 {
+    font-family: 'DM Serif Display', serif;
+    letter-spacing: 0.1em;
+    font-size: 20px;
+    text-align: left;
+}
+
+.kieli {
+    text-transform: capitalize;
+}
+
+.hide {
+    display: none;
+}
+
+p {
+    letter-spacing: 0.1em;
+    padding-top: 0.5em;
+    color: #E6E6E6;
+    font-family: 'Quicksand', 'sans-serif';
+    font-size: 13px;
+}
+
+#select {
+    margin: 1%;
+    margin-bottom: 3%;
+    display: inline;
+    vertical-align: middle;
+}
+
+#getData {
+    letter-spacing: 0.05em;
+    background-color: #F0F0F0;
+    color: #454545;
+    margin-left: 0.5em;
+    padding: 0.5em;
+    font-size: 16px;
+    width: flex;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: rgba(92, 92, 92, 0.56) 0px 10px 30px 4px;
+}
+
+#getData:hover {
+    color: black;
+}
+
+#location {
+    letter-spacing: 0.1em;
+    background-color: #F0F0F0;
+    color: #454545;
+    padding: 0.5em;
+    font-size: 16px;
+    width: 20%;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: rgba(92, 92, 92, 0.56) 0px 10px 30px 4px;
+}
+
+#location:hover {
+    color: black;
+}
+
+#whatDay {
+    letter-spacing: 0.1em;
+    background-color: #F0F0F0;
+    color: #454545;
+    padding: 0.5em;
+    margin-left: 0.5em;
+    font-size: 16px;
+    width: 20%;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: rgba(92, 92, 92, 0.56) 0px 10px 30px 4px;
+}
+
+#whatDay:hover {
+    color: black;
+}
+
+#whatDate {
+    margin-top: 1em;
+    font-size: 25px;
+}
+
+.col1 {
+    margin: 0 0 auto 0;
+    text-align: center;
+    vertical-align: top;
+}
+
+.col2 {
+    text-align: left;
+    padding: 0 0 5px 20px ;
+}
+
+a {
+    font-family: 'Quicksand', 'sans-serif';
+    font-size: 15px;
+    align-items: center;
+    color: #fec704;
+    margin-top: 5px;
+    text-decoration: none;
+    letter-spacing: 0.10em;
+    padding: 0.25em 1em 0.25em 1em;
+    border: 1px solid #fec704;
+}
+
+a:hover {
+    padding: 0.25em 1em 0.25em 1em;
+    font-weight: bold;
+    background-color: #fec704;
+    color: black;
+}
+
+.grid-container {
+    justify-content: center;
+    text-align: center;
+    color: #E6E6E6;
+    padding: 1em;
+    line-height: 1em;
+    display: grid;
+    grid-template-columns: repeat(3, 24em);
+    grid-template-rows: max-content;
+}
+
+.grid-item {
+    background-color: #242424;
+    margin: 1em;
+    padding: 1em;
+    text-align: center;
+    border-style: none;
+    border-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+}
+
+img {
+    width: 130%;
+    height: auto;
+}
+
+@media all and (max-width: 1200px){
+    body {
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .grid-container {
+        grid-template-columns: 24em 24em;
+    }
+}
+
+@media all and (max-width: 900px){
+    [col-sm-*] {
+        width: 100%;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    img {
+        width: 90%;
+        height: auto;
+        margin-bottom: 5px;
+    }
+
+    #select {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #location, #whatDay, #getData {
+        width: 10em;
+        margin: 2%;
+    }
+
+    .grid-container {
+        grid-template-columns: auto;
+    }
+}
